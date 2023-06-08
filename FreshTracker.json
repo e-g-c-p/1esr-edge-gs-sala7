@@ -1,0 +1,193 @@
+[
+    {
+        "id": "ed74720e7522a03d",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "943cbbef82ed01e8",
+        "type": "serial in",
+        "z": "ed74720e7522a03d",
+        "name": "Arduino",
+        "serial": "bb6f950bf8644e9a",
+        "x": 190,
+        "y": 280,
+        "wires": [
+            [
+                "e3be668b3b723c13",
+                "8614da17272a5a84"
+            ]
+        ]
+    },
+    {
+        "id": "c4fe2c8b6f69f596",
+        "type": "debug",
+        "z": "ed74720e7522a03d",
+        "name": "Debug Temp.",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "a5f45ac68026fc99",
+        "type": "debug",
+        "z": "ed74720e7522a03d",
+        "name": "Debug Hum.",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "ab25e984b7bf3639",
+        "type": "ui_gauge",
+        "z": "ed74720e7522a03d",
+        "name": "Humidity",
+        "group": "5e057ff418f992dc",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Humidity",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 520,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "dc54c8652ceb8fb1",
+        "type": "ui_gauge",
+        "z": "ed74720e7522a03d",
+        "name": "Temperature",
+        "group": "5e057ff418f992dc",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Temperature",
+        "label": "C",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 530,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "e3be668b3b723c13",
+        "type": "function",
+        "z": "ed74720e7522a03d",
+        "name": "Temperature",
+        "func": "// convertendo caracteres ASCII para valores reais\n\nvar parts = msg.payload.split(\",\");\nvar sensorType = parts[0];\nvar temperature = parseFloat(parts[1]);\n\nif (sensorType === \"DHT11\") {\n    msg.payload = temperature.toFixed(2);\n} else if (sensorType === \"POTENTIOMETER\") {\n    msg.payload = temperature.toFixed(2);\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 260,
+        "wires": [
+            [
+                "dc54c8652ceb8fb1",
+                "c4fe2c8b6f69f596"
+            ]
+        ]
+    },
+    {
+        "id": "8614da17272a5a84",
+        "type": "function",
+        "z": "ed74720e7522a03d",
+        "name": "Humidity",
+        "func": "// convertendo caracteres ASCII para valores reais\n\nvar parts = msg.payload.split(\",\");\nvar sensorType = parts[0];\nvar humidity = parseFloat(parts[2]);\n\nif (sensorType === \"DHT11\") {\n    msg.payload = humidity.toFixed(2);\n} else if (sensorType === \"POTENTIOMETER\") {\n    msg.payload = humidity.toFixed(2);\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 300,
+        "wires": [
+            [
+                "ab25e984b7bf3639",
+                "a5f45ac68026fc99"
+            ]
+        ]
+    },
+    {
+        "id": "bb6f950bf8644e9a",
+        "type": "serial-port",
+        "serialport": "COM3",
+        "serialbaud": "9600",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+    },
+    {
+        "id": "5e057ff418f992dc",
+        "type": "ui_group",
+        "name": "FreshTrack",
+        "tab": "1355d1890267aa25",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "1355d1890267aa25",
+        "type": "ui_tab",
+        "name": "Tracker",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
